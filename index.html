@@ -55,7 +55,7 @@
         <link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/2.3/js/esri/dijit/css/Popup.css" />
         <script type="text/javascript" src="src/heatmap.js"></script>
         <script type="text/javascript" src="src/heatmap-arcgis.js"></script>
-        <script type="text/javascript">
+        <script type="text/javascript" >
             dojo.require("esri.map");
             dojo.require("esri.layers.FeatureLayer");
 
@@ -68,7 +68,7 @@
             function getFeatures() {
                 var query = new esri.tasks.Query();
                 query.geometry = map.extent;
-                query.where = "MC like '%淮河路步行街%'";
+                query.where = "MC like '%娣渤璺琛岃%'";
                 query.outSpatialReference = map.spatialReference;
                 // get em!
                 featureLayer.queryFeatures(query, function (featureSet) {
