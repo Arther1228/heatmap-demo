@@ -23,17 +23,12 @@
             h2 {
                 margin-top:0;
             }
-            #main {
-                position:relative;
-                width:1020px;
-                padding:20px;
-                margin:auto;
-            }
+          
             #heatmapArea {
                 position:relative;
                 float:left;
-                width:800px;
-                height:600px;
+                width:1900px;
+                height:950px;
                 border:1px dashed black;
             }
             #configArea {
@@ -44,39 +39,12 @@
                 padding-top:0;
                 padding-right:0;
             }
-            .btn {
-                margin-top:25px;
-                padding:10px 20px 10px 20px;
-                -moz-border-radius:15px;
-                -o-border-radius:15px;
-                -webkit-border-radius:15px;
-                border-radius:15px;
-                border:2px solid black;
-                cursor:pointer;
-                color:white;
-                background-color:black;
-            }
+
             #map {
-                width:800px;
-                height:600px;
+                width:1900px;
+                height:950px;
             }
-            #title {
-                font-family:arial;
-                display:inline-block;
-                position:absolute;
-                font-weight:bold;
-                font-size:21px;
-                line-height:28px;
-                top:20px;
-                right:20px;
-                z-index:99;
-                background:rgba(255, 255, 255, 0.65);
-                padding:10px 20px;
-                -webkit-border-radius: 3px;
-                border-radius: 3px;
-                text-shadow:1px 1px 1px #FFFFFF -webkit-box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
-                box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
-            }
+
         </style>
         <script type="text/javascript">
             var djConfig = {
@@ -103,7 +71,7 @@
                 // only within extent
                 query.geometry = map.extent;
                 // give me all of them!
-                query.where = "1=1";
+                query.where = "1 = 1";
                 // make sure I get them back in my spatial reference
                 query.outSpatialReference = map.spatialReference;
                 // get em!
@@ -120,23 +88,17 @@
             }
 
             // Init
-            function init() {
-                // initial extent of map
-               /* var initExtent = new esri.geometry.Extent({
-                    xmax: -13624229.32056175,
-                    xmin: -13625120.886837104,
-                    ymax: 4548374.604660432,
-                    ymin: 4547966.144290476,
-                    "spatialReference": {
-                        "wkid": 102100
-                    }
-                });
-				*/
+            function init() {         
+				
                 // create map
                 map = new esri.Map("map", {
                     //extent: initExtent,
                     sliderStyle: "small"
                 });
+
+				 var extGraphics = new esri.geometry.Extent(117.0552123329997, 31.62440781313796, 117.4752123329997, 32.06440781313796, new esri.SpatialReference({ wkid: 4326 }));
+				 map.setExtent(extGraphics);
+
                 //Add the topographic layer to the map. View the ArcGIS Online site for services http://arcgisonline/home/search.html?t=content&f=typekeywords:service
                 var basemap = new esri.layers.ArcGISTiledMapServiceLayer("http://192.168.97.24:6080/arcgis/rest/services/PCGISTiled/MapServer");
                 map.addLayer(basemap);
@@ -174,7 +136,7 @@
                     // get features from this layer
                     getFeatures();
                     // on map extent change
-                    dojo.connect(map, "onExtentChange", getFeatures);
+                    dojo.connect(map, "zoom-end", getFeatures);
                    
                 });
             }
@@ -184,15 +146,9 @@
     </head>
 
     <body class="claro">
-        <div id="main">
-            	<h1>ArcGIS JavaScript API Heatmap Overlay</h1>
-	<a href="http://www.arcgis.com/home/item.html?id=3a6d8158252e4b96a8ecfb8b912df78d">Download code</a>.
-            <br
-            />
-            <br />
+
             <div id="heatmapArea">
                 <div id="heatLayer"></div>
-                <div id="title">San Francisco Trees</div>
                 <div id="map"></div>
             </div>
 
