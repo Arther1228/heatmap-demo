@@ -66,6 +66,16 @@
             var heatLayer;
             var featureLayer;
 
+			var dataList = [
+				{longitude:117.28365699112048,
+				 latitude:31.86564562695073,
+				 count: 4},
+
+				 {longitude:117.28840872215707,
+				 latitude:31.86635534143038,
+				 count: 10},
+			];
+
             // Init
             function init() {
                 map = new esri.Map("map", {
@@ -122,7 +132,8 @@
                     if (featureSet && featureSet.features && featureSet.features.length > 0) {
                         data = featureSet.features;
                     }
-                    heatLayer.setData(data);
+                    //heatLayer.setData(data);
+                    heatLayer.setDataByDataList(dataList);
                 });
             }
 
