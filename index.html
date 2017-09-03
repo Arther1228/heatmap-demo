@@ -23,7 +23,7 @@
             h2 {
                 margin-top:0;
             }
-          
+
             #heatmapArea {
                 position:relative;
                 float:left;
@@ -64,36 +64,20 @@
             var heatLayer;
             var featureLayer;
 
-            // get the features within the current extent from the feature layer
-            function getFeatures() {
-                var query = new esri.tasks.Query();
-                query.geometry = map.extent;
-                query.where = "MC like '%淮河路步行街%'";
-                query.outSpatialReference = map.spatialReference;
-                // get em!
-                featureLayer.queryFeatures(query, function (featureSet) {
-                    var data = [];
-                    if (featureSet && featureSet.features && featureSet.features.length > 0) {
-                        data = featureSet.features;
-                    }
-                    heatLayer.setData(data);
-                });
-            }
-
             // Init
             function init() {
-                // create map
                 map = new esri.Map("map", {
                     //extent: initExtent,
                     sliderStyle: "small"
                 });
 
-				 var extGraphics = new esri.geometry.Extent(117.0552123329997, 31.62440781313796, 117.4752123329997, 32.06440781313796, new esri.SpatialReference({ wkid: 4326 }));
-				 map.setExtent(extGraphics);
+      				 var extGraphics = new esri.geometry.Extent(117.0552123329997, 31.62440781313796, 117.4752123329997, 32.06440781313796, new esri.SpatialReference({ wkid: 4326 }));
+      				 map.setExtent(extGraphics);
 
                 //Add the topographic layer to the map. View the ArcGIS Online site for services http://arcgisonline/home/search.html?t=content&f=typekeywords:service
                 var basemap = new esri.layers.ArcGISTiledMapServiceLayer("http://192.168.97.24:6080/arcgis/rest/services/PCGISTiled/MapServer");
                 map.addLayer(basemap);
+
                 dojo.connect(map, 'onLoad', function (theMap) {
                     dojo.connect(dijit.byId('map'), 'resize', map, map.resize);
                     heatLayer = new HeatmapLayer({
@@ -121,9 +105,26 @@
                     map.addLayer(featureLayer);
                     getFeatures();
                     dojo.connect(map, "zoom-end", getFeatures);
-                   
+
                 });
             }
+
+            // get the features within the current extent from the feature layer
+            function getFeatures() {
+                var query = new esri.tasks.Query();
+                query.geometry = map.extent;
+                query.where = "MC like '%淮河路步行街%'";
+                query.outSpatialReference = map.spatialReference;
+                featureLayer.queryFeatures(query, function (featureSet) {
+                    var data = [];
+                    if (featureSet && featureSet.features && featureSet.features.length > 0) {
+                        data = featureSet.features;
+                    }
+                    heatLayer.setData(data);
+                });
+            }
+
+
             dojo.addOnLoad(init);
         </script>
     </head>
